@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block titre %}Budgets — FinClair{% endblock %}
+
+{% block contenu %}
+<div class="page">
+    <div class="page-header">
+        <h1>Mes Budgets</h1>
+        <a href="{% url 'ajouter_budget' %}" class="btn">+ Ajouter</a>
+    </div>
+    {% for b in budgets %}
+    <div class="budget-carte">
+        <h3>{{ b.categorie }}</h3>
+        <p>Limite : {{ b.limite }} FCFA</p>
+        <p>Mois : {{ b.mois }}</p>
+    </div>
+    {% empty %}
+    <p>Aucun budget défini.</p>
+    {% endfor %}
+</div>
+{% endblock %}

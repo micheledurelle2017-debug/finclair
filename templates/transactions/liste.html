@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block titre %}Transactions — FinClair{% endblock %}
+
+{% block contenu %}
+<div class="page">
+    <div class="page-header">
+        <h1>Mes Transactions</h1>
+        <a href="{% url 'ajouter_transaction' %}" class="btn">+ Ajouter</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Montant</th>
+                <th>Type</th>
+                <th>Catégorie</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transactions %}
+            <tr class="{{ t.type_transaction }}">
+                <td>{{ t.titre }}</td>
+                <td>{{ t.montant }} FCFA</td>
+                <td>{{ t.type_transaction }}</td>
+                <td>{{ t.categorie }}</td>
+                <td>{{ t.date }}</td>
+                <td>
+                    <a href="{% url 'supprimer_transaction' t.pk %}"
+                       onclick="return confirm('Supprimer cette transaction ?')">
+                       🗑️
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">Aucune transaction.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

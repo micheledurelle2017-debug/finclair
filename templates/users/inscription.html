@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block titre %}Inscription — FinClair{% endblock %}
+
+{% block contenu %}
+<div class="auth-container">
+    <h1>Créer un compte</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">S'inscrire</button>
+    </form>
+    <p>Déjà un compte ? <a href="{% url 'connexion' %}">Se connecter</a></p>
+</div>
+{% endblock %}

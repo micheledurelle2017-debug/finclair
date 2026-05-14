@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block titre %}Dashboard — FinClair{% endblock %}
+
+{% block contenu %}
+<div class="dashboard">
+    <h1>Bonjour, {{ user.username }} 👋</h1>
+
+    <div class="cartes">
+        <div class="carte solde">
+            <h3>Solde actuel</h3>
+            <p>{{ solde }} FCFA</p>
+        </div>
+        <div class="carte revenus">
+            <h3>Revenus totaux</h3>
+            <p>{{ revenus }} FCFA</p>
+        </div>
+        <div class="carte depenses">
+            <h3>Dépenses totales</h3>
+            <p>{{ depenses }} FCFA</p>
+        </div>
+    </div>
+
+    <div class="dashboard-graphiques">
+        <div class="graphique-carte">
+            <h2>Revenus vs Dépenses</h2>
+            <canvas id="graphiqueRevenusDepenses"></canvas>
+        </div>
+        <div class="graphique-carte">
+            <h2>Dépenses par catégorie</h2>
+            <canvas id="graphiqueCategories"></canvas>
+        </div>
+    </div>
+
+    <div class="dernieres-transactions">
+        <h2>Dernières transactions</h2>
+        {% if transactions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Montant</th>
+                    <th>Type</th>
+                    <th>Catégorie</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transactions %}
+                <tr class="{{ t.type_transaction }}">
+                    <td>{{ t.titre }}</td>
+                    <td>{{ t.montant }} FCFA</td>
+                    <td>{{ t.type_transaction }}</td>
+                    <td>{{ t.categorie }}</td>
+                    <td>{{ t.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Aucune transaction pour le moment.</p>
+        {% endif %}
+        <a href="{% url 'ajouter_transaction' %}" class="btn">+ Ajouter une transaction</a>
+    </div>
+</div>
+
+<script>
+    var revenus = {{ revenus|default:0 }};
+    var depenses = {{ depenses|default:0 }};
+    var categoriesLabels = {{ categories_labels|safe }};
+    var categoriesData = {{ categories_data|safe }};
+</script>
+{% endblock %}

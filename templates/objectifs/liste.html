@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block titre %}Objectifs — FinClair{% endblock %}
+
+{% block contenu %}
+<div class="page">
+    <div class="page-header">
+        <h1>Mes Objectifs d'épargne</h1>
+        <a href="{% url 'ajouter_objectif' %}" class="btn">+ Ajouter</a>
+    </div>
+    {% for o in objectifs %}
+    <div class="objectif-carte">
+        <h3>{{ o.titre }}</h3>
+        <p>Cible : {{ o.montant_cible }} FCFA</p>
+        <p>Actuel : {{ o.montant_actuel }} FCFA</p>
+        <div class="progress-bar">
+            <div class="progress" style="width: {{ o.progression|floatformat:0 }}%"></div>
+        </div>
+        <p>{{ o.progression|floatformat:0 }}% atteint</p>
+        <p>Date cible : {{ o.date_cible }}</p>
+    </div>
+    {% empty %}
+    <p>Aucun objectif défini.</p>
+    {% endfor %}
+</div>
+{% endblock %}

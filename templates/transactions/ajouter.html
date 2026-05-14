@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block titre %}Ajouter une transaction{% endblock %}
+
+{% block contenu %}
+<div class="form-container">
+    <h1>Nouvelle Transaction</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Titre</label>
+            <input type="text" name="titre" required>
+        </div>
+        <div class="form-group">
+            <label>Montant (FCFA)</label>
+            <input type="number" name="montant" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <select name="type_transaction">
+                <option value="revenu">Revenu</option>
+                <option value="depense">Dépense</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Catégorie</label>
+            <select name="categorie">
+                <option value="alimentation">Alimentation</option>
+                <option value="transport">Transport</option>
+                <option value="logement">Logement</option>
+                <option value="sante">Santé</option>
+                <option value="loisirs">Loisirs</option>
+                <option value="education">Éducation</option>
+                <option value="autres">Autres</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Description (optionnel)</label>
+            <textarea name="description"></textarea>
+        </div>
+        <button type="submit">Enregistrer</button>
+        <a href="{% url 'liste_transactions' %}">Annuler</a>
+    </form>
+</div>
+{% endblock %}

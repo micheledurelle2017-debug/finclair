@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}FinClair{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+    <nav>
+        <div class="nav-logo">💰 FinClair</div>
+        <div class="nav-links">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'liste_transactions' %}">Transactions</a>
+            <a href="{% url 'liste_budgets' %}">Budgets</a>
+            <a href="{% url 'liste_objectifs' %}">Objectifs</a>
+            <a href="{% url 'deconnexion' %}">Déconnexion</a>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% block contenu %}{% endblock %}
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx1 = document.getElementById('graphiqueRevenusDepenses');
+        var ctx2 = document.getElementById('graphiqueCategories');
+
+        if (ctx1) {
+            new Chart(ctx1.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Ce mois'],
+                    datasets: [
+                        { label: 'Revenus', data: [revenus], backgroundColor: '#28a745' },
+                        { label: 'Dépenses', data: [depenses], backgroundColor: '#dc3545' }
+                    ]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        if (ctx2 && categoriesLabels && categoriesLabels.length > 0) {
+            new Chart(ctx2.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: categoriesLabels,
+                    datasets: [{
+                        data: categoriesData,
+                        backgroundColor: ['#f0c040','#28a745','#dc3545','#007bff','#fd7e14','#6f42c1','#20c997']
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+    });
+    </script>
+
+    <script>
+    function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    }
+    </script>
+
+</body>
+</html>

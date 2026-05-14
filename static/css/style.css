@@ -255,31 +255,3 @@ button[type="submit"]:hover, .btn:hover {
         margin-left: 10px;
     }
 }
-/* ===== GRAPHIQUES ===== */
-.dashboard-graphiques {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.graphique-carte {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.graphique-carte h2 {
-    color: #1a1a2e;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-@media (max-width: 768px) {
-    .dashboard-graphiques {
-        grid-template-columns: 1fr;
-    }
-}

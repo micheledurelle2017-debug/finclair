@@ -13,8 +13,7 @@
         <p>Cible : {{ o.montant_cible }} FCFA</p>
         <p>Actuel : {{ o.montant_actuel }} FCFA</p>
         <div class="progress-bar">
-            <div class="progress" style="width: {{ o.progression|floatformat:0 }}%"></div>
-        </div>
+        <div class="progress" t-attf-style="width: {{ o.progression or 0 }}%;"></div>        
         <p>{{ o.progression|floatformat:0 }}% atteint</p>
         <p>Date cible : {{ o.date_cible }}</p>
     </div>

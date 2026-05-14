@@ -6,20 +6,9 @@
     <h1>Connexion</h1>
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
-            <label>Nom d'utilisateur</label>
-            <input type="text" name="username" required>
-        </div>
-        <div class="form-group">
-            <label>Mot de passe</label>
-            <div style="position:relative">
-                <input type="password" name="password" id="pwd_connexion" required>
-                <span onclick="togglePassword('pwd_connexion')"
-                      style="position:absolute; right:12px; top:10px; cursor:pointer">👁️</span>
-            </div>
-        </div>
+        {{ form.as_p }}
         <button type="submit">Se connecter</button>
-        <p>Pas encore de compte ? <a href="{% url 'inscription' %}">S'inscrire</a></p>
     </form>
+    <p>Pas encore de compte ? <a href="{% url 'inscription' %}">S'inscrire</a></p>
 </div>
 {% endblock %}

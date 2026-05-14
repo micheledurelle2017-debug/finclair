@@ -1,9 +1,7 @@
-import json
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
 from transactions.models import Transaction
 from budgets.models import Budget
 from objectifs.models import Objectif
@@ -12,32 +10,22 @@ from objectifs.models import Objectif
 def dashboard(request):
     transactions = Transaction.objects.filter(
         utilisateur=request.user
-    ).order_by('-date')[:5]
+    ).order_by('-date')[:5]  # Les 5 dernières seulement
 
-    revenus = Transaction.objects.filter(
+    # Calcul du solde total
+    revenus = sum(t.montant for t in Transaction.objects.filter(
         utilisateur=request.user, type_transaction='revenu'
-    ).aggregate(total=Sum('montant'))['total'] or 0
-
-    depenses = Transaction.objects.filter(
+    ))
+    depenses = sum(t.montant for t in Transaction.objects.filter(
         utilisateur=request.user, type_transaction='depense'
-    ).aggregate(total=Sum('montant'))['total'] or 0
-
+    ))
     solde = revenus - depenses
-
-    depenses_par_cat = Transaction.objects.filter(
-        utilisateur=request.user, type_transaction='depense'
-    ).values('categorie').annotate(total=Sum('montant'))
-
-    categories_labels = json.dumps([item['categorie'] for item in depenses_par_cat])
-    categories_data = json.dumps([float(item['total']) for item in depenses_par_cat])
 
     return render(request, 'users/dashboard.html', {
         'transactions': transactions,
-        'solde': float(solde),
-        'revenus': float(revenus),
-        'depenses': float(depenses),
-        'categories_labels': categories_labels,
-        'categories_data': categories_data,
+        'solde': solde,
+        'revenus': revenus,
+        'depenses': depenses,
     })
 
 def inscription(request):
@@ -45,7 +33,7 @@ def inscription(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user)  # Connecte automatiquement après inscription
             return redirect('dashboard')
     else:
         form = UserCreationForm()

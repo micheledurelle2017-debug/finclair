@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from transactions.models import Transaction
 from budgets.models import Budget
 from objectifs.models import Objectif
+from .models import Profil
 
 @login_required
 def dashboard(request):
@@ -53,3 +54,16 @@ def connexion(request):
 def deconnexion(request):
     logout(request)
     return redirect('connexion')
+
+@login_required
+def profil(request):
+    profil, created = Profil.objects.get_or_create(utilisateur=request.user)
+    if request.method == 'POST':
+        request.user.first_name = request.POST.get('first_name', '')
+        request.user.last_name = request.POST.get('last_name', '')
+        request.user.email = request.POST.get('email', '')
+        request.user.save()
+        profil.telephone = request.POST.get('telephone', '')
+        profil.save()
+        return redirect('profil')
+    return render(request, 'users/profil.html', {'profil': profil})

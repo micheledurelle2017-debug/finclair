@@ -6,6 +6,9 @@ class Alerte(models.Model):
         ('budget', 'Dépassement budget'),
         ('objectif', 'Objectif atteint'),
         ('dette', 'Échéance dette'),
+        ('solde_negatif', 'Solde négatif'),
+        ('doublon', 'Transaction en doublon'),
+        ('fraude', 'Activité suspecte'),
     ]
 
     utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)

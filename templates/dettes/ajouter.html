@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block titre %}Ajouter une dette{% endblock %}
+
+{% block contenu %}
+<div class="form-container">
+    <h1>Nouvelle Dette</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Titre</label>
+            <input type="text" name="titre" required>
+        </div>
+        <div class="form-group">
+            <label>Montant (FCFA)</label>
+            <input type="number" name="montant" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <select name="type_dette">
+                <option value="emprunt">J'ai emprunté</option>
+                <option value="pret">J'ai prêté</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Personne concernée</label>
+            <input type="text" name="personne" required>
+        </div>
+        <div class="form-group">
+            <label>Date d'échéance</label>
+            <input type="date" name="date_echeance" required>
+        </div>
+        <div class="form-group">
+            <label>Description (optionnel)</label>
+            <textarea name="description"></textarea>
+        </div>
+        <button type="submit">Enregistrer</button>
+        <a href="{% url 'liste_dettes' %}">Annuler</a>
+    </form>
+</div>
+{% endblock %}

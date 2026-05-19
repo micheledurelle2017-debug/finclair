@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'transactions',
     'budgets',
     'objectifs',
+    'dettes',
+    'statistiques',
+    'alertes',
     'widget_tweaks',
 ]
 

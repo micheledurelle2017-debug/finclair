@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block titre %}Dettes — FinClair{% endblock %}
+
+{% block contenu %}
+<div class="page">
+    <div class="page-header">
+        <h1>Mes Dettes</h1>
+        <a href="{% url 'ajouter_dette' %}" class="btn">+ Ajouter</a>
+    </div>
+
+    <div class="cartes">
+        <div class="carte depenses">
+            <h3>J'ai emprunté</h3>
+            <p>{{ total_emprunte }} FCFA</p>
+        </div>
+        <div class="carte revenus">
+            <h3>J'ai prêté</h3>
+            <p>{{ total_prete }} FCFA</p>
+        </div>
+    </div>
+
+    {% for d in dettes %}
+    <div class="budget-carte">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+            <div>
+                <h3>{{ d.titre }}</h3>
+                <p>{{ d.personne }} — {{ d.montant }} FCFA</p>
+                <p>Échéance : {{ d.date_echeance }}</p>
+                <p>Type : {{ d.get_type_dette_display }}</p>
+            </div>
+            <div>
+                {% if d.rembourse %}
+                    <span style="color:#28a745; font-weight:bold">✅ Remboursé</span>
+                {% else %}
+                    <a href="{% url 'rembourser_dette' d.pk %}" class="btn"
+                       onclick="return confirm('Marquer comme remboursé ?')">
+                       Remboursé
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Aucune dette enregistrée.</p>
+    {% endfor %}
+</div>
+{% endblock %}
